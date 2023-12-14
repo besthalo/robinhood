@@ -37,8 +37,9 @@ async function createUser(req, res) {
         msgDesc: "Internal Server Error",
       },
     });
+    // wil send error detail to application log or console.error(error)
   }
-  let { error, result } = await userService.createNewUser(
+  let { error, _ } = await userService.createNewUser(
     userObject,
     decodeToken?.uid || null
   );

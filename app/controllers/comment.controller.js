@@ -117,6 +117,16 @@ async function getComment(req, res) {
       limit,
       page
     );
+
+    if(error){
+      return res.status(400).send({
+        msgRes:{
+          msgCode:"0400",
+          msgDesc:"Can not get comment list "
+        }
+      })
+      // wil send error detail to application log or console.error(error)
+    }
     let totalPage = total > 0 ? Math.ceil(total / limit) : 0;
 
     return res.json({
@@ -140,6 +150,7 @@ async function getComment(req, res) {
         error,
       },
     });
+    // wil send error detail to application log or console.error(error)
   }
 }
 

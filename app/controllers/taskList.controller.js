@@ -3,8 +3,8 @@ const changeLogService = require("../services/changeLogService");
 
 async function getTaskList(req, res) {
   let { limit, page } = req.query;
-  limit = limit || 10
-  page = page || 1
+  limit = limit || 10;
+  page = page || 1;
   try {
     let { data, total, error } = await taskService.getCardLists(limit, page);
     // console.log(result);
@@ -36,7 +36,21 @@ async function postTask(req, res) {
   let toppicData = req.body;
   let decodeToken = req.decodeToken;
   try {
-    let result = await taskService.createCard(toppicData, decodeToken["uid"]);
+    let { result, error } = await taskService.createCard(
+      toppicData,
+      decodeToken["uid"]
+    );
+
+    if (error) {
+      return res.status(400).send({
+        msgRes: {
+          msgCode: "0400",
+          msgDesc: "Create Card Error",
+        },
+      });
+
+      // wil send error detail to application log or console.error(error)
+    }
     return res.status(200).send({
       msgRes: {
         msgCode: "0000",
@@ -52,10 +66,8 @@ async function postTask(req, res) {
         msgCode: "0500",
         msgDesc: "Internal Server Error",
       },
-      errorDetail: {
-        error,
-      },
     });
+    // wil send error detail to application log or console.error(error)
   }
 }
 
@@ -71,11 +83,14 @@ async function cardDetail(req, res) {
         msgDesc: "Internal Server Error",
       },
     });
+    // wil send error detail to application log or console.error(error)
   }
   if (!result) {
     return res.status(400).send({
-      msgRes: "0400",
-      msgDesc: "Bad Request, Card does not exist",
+      msgRes: {
+        msgCode: "0400",
+        msgDesc: "Bad Request, Card does not exist",
+      },
     });
   }
 
@@ -89,6 +104,12 @@ async function cardChangeHistory(req, res) {
   let cardId = req.params.id;
   try {
     let { data, error } = await changeLogService.getList(cardId);
+    if (error) {
+      return res.status(400).send({
+        msgRes: { msgCode: "0400", msgDesc: "Can not get History" },
+      });
+      // wil send error detail to application log or console.error(error)
+    }
     return res.status(200).send({
       msgRes: {
         msgCode: "0000",
@@ -102,8 +123,9 @@ async function cardChangeHistory(req, res) {
         msgCode: "0500",
         msgDesc: "Internal Server Error",
       },
-      errorDetail: { error },
+      // errorDetail: { error },
     });
+    // wil send error detail to application log or console.error(error)
   }
 }
 
@@ -124,11 +146,14 @@ async function putCard(req, res) {
           msgDesc: "Internal Server Error",
         },
       });
+      // wil send error detail to application log or console.error(error)
     }
     if (!resultOldCard) {
       return res.status(400).send({
-        msgRes: "0400",
-        msgDesc: "Bad Request, Card does not exist",
+        msgRes: {
+          msgCode: "0400",
+          msgDesc: "Bad Request, Card does not exist",
+        },
       });
     }
 
@@ -165,12 +190,13 @@ async function putCard(req, res) {
           msgCode: "0002",
           msgDesc: "Update Card Error",
         },
-        errorDetail: { errorUpdate },
+        // errorDetail: { errorUpdate },
       });
+      // wil send error detail to application log or console.error(error)
     }
     if (result) {
       taskService.saveChangeLog(changeLog).then(({ result, error }) => {
-        // TODO will continue like application log or send to kafka for process again
+        // TODO will continue like application log or send to kafka for process 
       });
     }
     return res.status(200).send({
@@ -189,6 +215,7 @@ async function putCard(req, res) {
         error,
       },
     });
+    // wil send error detail to application log or console.error(error)
   }
 }
 
@@ -239,8 +266,8 @@ async function patchCard(req, res) {
     if (errorUpdate) {
       return res.status(400).send({
         msgRes: {
-          msgCode: "0002",
-          msgDesc: "Update Card Error",
+          msgCode: "0400",
+          msgDesc: "Archive Card Error",
         },
         errorDetail: { errorUpdate },
       });
