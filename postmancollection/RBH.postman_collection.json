@@ -1,0 +1,414 @@
+{
+	"info": {
+		"_postman_id": "bbef5af3-f119-427d-8f63-28f69ccac1c3",
+		"name": "RBH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1698782"
+	},
+	"item": [
+		{
+			"name": "createUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"robo9\",\n    \"password\":\"123123\",\n    \"firstName\":\"robo9\",\n    \"display_name\":\"robo9\",\n    \"lastName\":\"QA\",\n    \"email\":\"{{$randomEmail}}\",\n    \"status\":1   \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/user",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"var userToken = pm.response.json().userInfo.token;",
+							"pm.environment.set(\"JWT\", userToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"robo1\",\n    \"password\": \"123123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createCard",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImVtYWlsIjoiQmVyZW5pY2UuUGFnYWMzN0B5YWhvby5jb20iLCJkaXNwbGF5X25hbWUiOiJ0ZXN0YWRtaW4iLCJleHAiOjE3MDI0Nzk4NjEsImlhdCI6MTcwMjM5MzQ2MSwidGltZV9zdGFtcCI6MTcwMjM5MzQ2MTAxMH0.AYWuyAYR-pEdyHVcQ9szM04bm5KPFHe8W1jVOEtF4FM",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"นัดสัมภาษณ์งาน 5\",\n    \"detail\":\"TESt Input more data 5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/card",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cardLists",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/cards",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cardDetail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/card/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCard",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"นัดสัมภาษณ์งาน 3 sdfsdf\",\n    \"detail\":\"TESt Input more data sdfsdf\",\n    \"status\":2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/card/3",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card",
+						"3"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "archiveCard",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/card/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "changeLog",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/card/3/history",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card",
+						"3",
+						"history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateComment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment\":\"Test Comment erert\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/card/3/comment",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card",
+						"3",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListComment",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/card/3/comment",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card",
+						"3",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateComment",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment\":\"Test Commen UOt\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/card/3/comment/4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card",
+						"3",
+						"comment",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Comment",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/card/3/comment/4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"card",
+						"3",
+						"comment",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
