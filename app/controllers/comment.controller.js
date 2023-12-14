@@ -1,10 +1,56 @@
 const commentService = require("../services/commentService");
+const taskService = require("../services/taskService");
+
+async function checkCardStatus(cardId) {
+  // GET DETAIL
+  let { result: resultCard, error: errorCard } =
+    await taskService.getCardDetail(cardId);
+
+  if (errorCard) {
+    return {
+      error: {
+        msgRes: {
+          msgCode: "0500",
+          msgDesc: "Internal Server Error",
+        },
+      },
+    };
+    // wil send error detail to application log or console.error(error)
+  }
+  if (!resultCard) {
+    return {
+      error: {
+        msgRes: {
+          msgCode: "0400",
+          msgDesc: "Bad Request, Card does not exist",
+        },
+      },
+    };
+  }
+
+  if (resultCard.archive_status == 1) {
+    return {
+      error: {
+        msgRes: {
+          msgCode: "0400",
+          msgDesc: "Bad Request, Card was archive",
+        },
+      },
+    };
+  }
+  return { error: null };
+}
 
 async function postComment(req, res) {
   let cardId = req.params.id;
   let commentBody = req.body;
   let decodeToken = req.decodeToken;
   try {
+    let { error: errorCard } = await checkCardStatus(cardId);
+    if (errorCard) {
+      return res.status(400).send(errorCard);
+    }
+
     let { error, result } = await commentService.createComment(
       commentBody,
       cardId,
@@ -42,6 +88,10 @@ async function putComment(req, res) {
   let commentBody = req.body;
   let decodeToken = req.decodeToken;
   try {
+    let { error: errorCard } = await checkCardStatus(cardId);
+    if (errorCard) {
+      return res.status(400).send(errorCard);
+    }
     let { result: resultOldComment, error: errorGetOldComment } =
       await commentService.getCommentDetail(commentId, cardId);
 
@@ -125,6 +175,11 @@ async function getComment(req, res) {
   let limit = req.query.limit || 10;
   let page = req.query.page || 1;
   try {
+    // GET DETAIL
+    let { error: errorCard } = await checkCardStatus(cardId);
+    if (errorCard) {
+      return res.status(400).send(errorCard);
+    }
     let { data, total, error } = await commentService.getCommentList(
       cardId,
       limit,
@@ -172,6 +227,10 @@ async function deleteComment(req, res) {
   let commentId = req.params.comment_id;
   let decodeToken = req.decodeToken;
   try {
+    let { error: errorCard } = await checkCardStatus(cardId);
+    if (errorCard) {
+      return res.status(400).send(errorCard);
+    }
     let { result: resultOldComment, error: errorGetOldComment } =
       await commentService.getCommentDetail(commentId, cardId);
 
