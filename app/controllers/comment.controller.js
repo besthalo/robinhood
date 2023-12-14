@@ -253,6 +253,15 @@ async function deleteComment(req, res) {
         },
       });
     }
+
+    if (resultOldComment.is_delete == 1) {
+      return res.status(400).send({
+        msgRes: {
+          msgCode: "0400",
+          msgDesc: "Bad Request, comment was deleted",
+        },
+      });
+    }
     // check is same comment user id
 
     if (decodeToken["uid"] != resultOldComment["create_by_uid"]) {

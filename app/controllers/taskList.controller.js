@@ -36,7 +36,7 @@ async function postTask(req, res) {
   let toppicData = req.body;
   let decodeToken = req.decodeToken;
   try {
-    let { result, error } = await taskService.createCard(
+    let { result, error, id } = await taskService.createCard(
       toppicData,
       decodeToken["uid"]
     );
@@ -57,7 +57,7 @@ async function postTask(req, res) {
         msgDesc: "Success",
       },
       data: {
-        cardId: result.id,
+        cardId: id,
       },
     });
   } catch (error) {
@@ -196,7 +196,7 @@ async function putCard(req, res) {
     }
     if (result) {
       taskService.saveChangeLog(changeLog).then(({ result, error }) => {
-        // TODO will continue like application log or send to kafka for process 
+        // TODO will continue like application log or send to kafka for process
       });
     }
     return res.status(200).send({
