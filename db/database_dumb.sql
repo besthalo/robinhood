@@ -106,7 +106,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`uid`, `username`, `password`, `display_name`, `email`, `status`, `create_datetime`, `create_by_uid`, `update_datetime`, `update_by_uid`, `is_delete`, `delete_datetime`, `delete_by_uid`) VALUES
 (1, 'robo1', '$2a$10$lh8TqeRVLDcshR88sTjDp.cR/mCnWQ5x7VfKSrS/GiElMb5r6qmna', 'robo', 'Alvis.Hammes@gmail.com', 1, '2023-12-13 12:18:27', 1, NULL, NULL, 0, NULL, NULL),
-(2, 'robo2', '$2a$10$iAbsQbTJf97dneK0BOhMGOifok07p/7wQ4/xc766bV5vWHT5nn0nq', 'robo2', 'Corrine16@yahoo.com', 1, '2023-12-13 14:58:22', 1, NULL, NULL, 0, NULL, NULL),
+(2, 'robo2', '$2a$10$iAbsQbTJf97dneK0BOhMGOifok07p/7wQ4/xc766bV5vWHT5nn0nq', 'robo2', 'Corrine16@yahoo.com', 1, '2023-12-13 14:58:22', 0, NULL, NULL, 1, NULL, NULL),
 (3, 'robo3', '$2a$10$4ucKKSqvlwxe/v6A.EAiAef21fgzgsnkrF.z9Sfpb7xMFmcj8FzVy', 'robo3', 'Demarco78@hotmail.com', 1, '2023-12-13 14:58:35', 1, NULL, NULL, 0, NULL, NULL),
 (4, 'robo4', '$2a$10$8dF6lH20gBJkV40QweAgr.XuQfEY5gF6A/pau7XdvPPkmrg1Vcp.q', 'robo4', 'Ewell60@yahoo.com', 1, '2023-12-13 14:58:40', 1, NULL, NULL, 0, NULL, NULL),
 (5, 'robo5', '$2a$10$42j8JZ1X6AxC584Ld71iaOt.bIhP5VLXrH2yME7Rvb09jfNsbxukG', 'robo5', 'Tatyana70@hotmail.com', 1, '2023-12-13 14:58:47', 1, NULL, NULL, 0, NULL, NULL),
