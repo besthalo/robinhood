@@ -11,7 +11,7 @@ Default on http://localhost:3000
 ### 1. Create User
 
 call APIs
-Method `Post` => Path '''"/user"''''
+Method `Post` => Path "/user"
 
 ```json
 {
@@ -159,6 +159,17 @@ Header `Authorization`: JWT TOKEN
 }
 ```
 
+
+### 12. Delete Comment card
+call APIs
+Method `DELETE` => Path "/card/:cardId/comment/:commentId"
+
+cardId = id ของ card 
+commentId = id ของ comment ที่ต้องการลบ
+
+Header `Authorization`: JWT TOKEN
+
+
 ## Data Dictionary
 ### 1. Users
 
@@ -166,7 +177,7 @@ field | Data Type | Length | Comment |
 --- | --- | --- | --- |
 uid | integer |  |  | 
 username | varchar | 100 | |
-password | varchar | 255 | |
+password | varchar | 255 | bcrypt |
 display_name | varchar | 100 | |
 email | varchar | 255 | |
 status | tinyint | 1 | 1=active,0=inacive|
@@ -218,3 +229,5 @@ comment | text | 100 | |
 create_datetime | datetime | | |
 create_by_uid | integer |  | |
 update_datetime | datetime | | |
+is_delete | tinyint | | |
+delete_datetime | datetime | | |
