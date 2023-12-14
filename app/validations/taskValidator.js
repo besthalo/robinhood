@@ -1,23 +1,18 @@
 const { body, query, check } = require("express-validator");
 
 const ruleOfPostTask = [
-  body("title").notEmpty().withMessage("topic is required").bail(),
+  body("title")
+    .notEmpty()
+    .withMessage("title is required")
+    .bail()
+    .isLength({ max: 100 })
+    .withMessage("title can not exceed 255 character"),
   body("detail").notEmpty().withMessage("detail is required").bail(),
 ];
 
 const ruleOfPutTask = ruleOfPostTask.concat([
   body("status").isIn([1, 2, 3]).withMessage("status is invalid"),
 ]);
-
-const ruleOfPatchTask = [
-  body("archive")
-    .notEmpty()
-    .withMessage("archive is required")
-    .bail()
-    .isIn([0, 1])
-    .withMessage("archive is invalid")
-    .bail(),
-];
 
 const ruleOfGetTask = [
   check("page")
@@ -40,5 +35,4 @@ module.exports = {
   ruleOfPostTask,
   ruleOfGetTask,
   ruleOfPutTask,
-  ruleOfPatchTask
 };

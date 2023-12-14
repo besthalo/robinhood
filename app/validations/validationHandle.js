@@ -15,7 +15,7 @@ const validateMiddleware = (req, res, next) => {
       .status(400)
       .json({
         msgRes: {
-          msgCode: 400,
+          msgCode: "0400",
           msgDesc: `Bad Request, ${firstError}`,
         },
       })

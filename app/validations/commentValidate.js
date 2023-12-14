@@ -1,7 +1,7 @@
 const { body, query, check } = require("express-validator");
 
 const ruleOfPostComment = [
-  body("comment").notEmpty().withMessage("comment is required").bail(),
+  body("comment").notEmpty().withMessage("comment is required").bail().isString().withMessage('comment must be string'),
 ];
 
 const ruleOfGetListComment = [

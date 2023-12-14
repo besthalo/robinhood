@@ -42,11 +42,12 @@ module.exports = (app) => {
   app.use(jwtValidate);
 
   app.post("/user", ruleOfCreateUser, validateMiddleware, createUser);
+
+  //
   app.get("/cards", ruleOfGetTask, validateMiddleware, getTaskList);
   app.post("/card", ruleOfPostTask, validateMiddleware, postTask);
   app.put("/card/:id", ruleOfPutTask, validateMiddleware, putCard);
   app.get("/card/:id", cardDetail);
-
   //use patch for archive only
   app.patch("/card/:id", patchCard);
 
