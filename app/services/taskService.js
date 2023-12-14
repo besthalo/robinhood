@@ -102,21 +102,6 @@ function buildPagingObject(limit, offset) {
   return defaults;
 }
 
-function buildOrderObject(orders) {
-  let defaultOrder = [["create_datetime", "asc"]];
-
-  if (orders && orders.length > 0) {
-    defaultOrder = [];
-    for (const order of orders) {
-      let { field, sort } = order;
-
-      defaultOrder.push([field, sort]);
-    }
-  }
-
-  return defaultOrder;
-}
-
 async function createCard(cardData, create_by) {
   cardData["create_by_uid"] = create_by;
   cardData["create_datetime"] = dayjs().utc().format();
@@ -125,7 +110,7 @@ async function createCard(cardData, create_by) {
 
   try {
     let result = await taskModel.create(cardData);
-    console.log(result.t_id);
+    // console.log(result.t_id);
     // log.setResponse({ result }).setMessage("success").send(1);
     return { result: "ok", id: result.t_id };
   } catch (error) {
@@ -163,7 +148,7 @@ async function saveChangeLog(changeDetail) {
   changeDetail["change_datetime"] = dayjs().utc().format();
   try {
     let result = await changeLogModel.create(changeDetail);
-    console.log(result.change_id);
+    // console.log(result.change_id);
     return { result: "ok", id: result.change_id };
   } catch (error) {
     return { error };
@@ -236,7 +221,7 @@ async function getCardDetail(cardId) {
       ],
       raw: true,
     });
-    console.log(result);
+    // console.log(result);
     return { result, error: null };
   } catch (error) {
     // console.log(error)

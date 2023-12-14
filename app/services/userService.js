@@ -42,7 +42,7 @@ async function createNewUser(userObject, create_by) {
   params["password"] = password_bcrypt;
   try {
     let result = await userModel.create(params);
-    console.log(result.id);
+    // console.log(result.id);
     return { result: "ok" };
   } catch (error) {
 
