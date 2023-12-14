@@ -33,6 +33,7 @@ const {
   postComment,
   putComment,
   getComment,
+  deleteComment,
 } = require("./controllers/comment.controller");
 
 module.exports = (app) => {
@@ -67,6 +68,8 @@ module.exports = (app) => {
     validateMiddleware,
     putComment
   );
+
+  app.delete("/card/:id/comment/:comment_id", deleteComment);
 
   app.use("*", (req, res) => {
     res.status(404).send({

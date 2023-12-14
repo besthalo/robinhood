@@ -3,22 +3,31 @@ const dayjs = require("dayjs");
 const timezone = require("dayjs/plugin/timezone");
 const utc = require("dayjs/plugin/utc");
 
-
 dayjs.extend(timezone);
 dayjs.extend(utc);
 
 const { Op, Sequelize } = require("sequelize");
 
 function buildQueryObject(query) {
-  let queryObject = {};
+  // let queryObject = {};
   let queryObject2 = [];
   for (const data of query) {
     let { field, operation, value } = data;
     switch (operation) {
+      case "NE":
+        // queryObject[field] = {
+        //   [Op.ne]: value,
+        // };
+        queryObject2.push({
+          [field]: {
+            [Op.ne]: value,
+          },
+        });
+        break;
       case "EQ":
-        queryObject[field] = {
-          [Op.eq]: value,
-        };
+        // queryObject[field] = {
+        //   [Op.eq]: value,
+        // };
         queryObject2.push({
           [field]: {
             [Op.eq]: value,
@@ -26,9 +35,9 @@ function buildQueryObject(query) {
         });
         break;
       case "GT":
-        queryObject[field] = {
-          [Op.gt]: value,
-        };
+        // queryObject[field] = {
+        //   [Op.gt]: value,
+        // };
         queryObject2.push({
           [field]: {
             [Op.gt]: value,
@@ -36,9 +45,9 @@ function buildQueryObject(query) {
         });
         break;
       case "GTE":
-        queryObject[field] = {
-          [Op.gte]: value,
-        };
+        // queryObject[field] = {
+        //   [Op.gte]: value,
+        // };
         queryObject2.push({
           [field]: {
             [Op.gte]: value,
@@ -46,9 +55,9 @@ function buildQueryObject(query) {
         });
         break;
       case "LT":
-        queryObject[field] = {
-          [Op.lt]: value,
-        };
+        // queryObject[field] = {
+        //   [Op.lt]: value,
+        // };
         queryObject2.push({
           [field]: {
             [Op.lt]: value,
@@ -56,9 +65,9 @@ function buildQueryObject(query) {
         });
         break;
       case "LTE":
-        queryObject[field] = {
-          [Op.lte]: value,
-        };
+        // queryObject[field] = {
+        //   [Op.lte]: value,
+        // };
         queryObject2.push({
           [field]: {
             [Op.lte]: value,
@@ -66,9 +75,9 @@ function buildQueryObject(query) {
         });
         break;
       case "LIKE":
-        queryObject[field] = {
-          [Op.like]: "%" + value + "%",
-        };
+        // queryObject[field] = {
+        //   [Op.like]: "%" + value + "%",
+        // };
         queryObject2.push({
           [field]: {
             [Op.like]: "%" + value + "%",
@@ -76,9 +85,9 @@ function buildQueryObject(query) {
         });
         break;
       case "IN":
-        queryObject[field] = {
-          [Op.in]: value.split(","),
-        };
+        // queryObject[field] = {
+        //   [Op.in]: value.split(","),
+        // };
         queryObject2.push({
           [field]: {
             [Op.in]: value.split(","),
@@ -130,6 +139,7 @@ async function getCommentDetail(commentId, cardId) {
         "create_by_uid",
         [Sequelize.col("user.display_name"), "user_display_name"],
         "create_datetime",
+        "is_delete",
       ],
       raw: true,
     });
@@ -141,11 +151,11 @@ async function getCommentDetail(commentId, cardId) {
   }
 }
 
-async function updateComment(comment, commentId) {
+async function updateComment(comment, cardId, commentId) {
   comment["update_datetime"] = dayjs().utc().format();
   try {
     let _ = await commentModel.update(comment, {
-      where: { tc_id: commentId },
+      where: { tc_id: commentId, t_id:cardId },
     });
     return { result: "ok" };
   } catch (error) {
@@ -159,6 +169,11 @@ async function getCommentList(cardId, limit = 10, page = 1) {
       field: "t_id",
       operation: "EQ",
       value: cardId,
+    },
+    {
+      field: "is_delete",
+      operation: "EQ",
+      value: "0",
     },
   ];
   let queryObject = buildQueryObject(query);
@@ -196,9 +211,26 @@ async function getCommentList(cardId, limit = 10, page = 1) {
     return { error, data: [], total: 0 };
   }
 }
+
+async function deleteComment(cardId, commentId) {
+  let updateData = {
+    is_delete: 1,
+    delete_datetime: dayjs().utc().format(),
+  };
+  // comment["update_datetime"] = dayjs().utc().format();
+  try {
+    let _ = await commentModel.update(updateData, {
+      where: { tc_id: commentId, t_id: cardId },
+    });
+    return { result: "ok" };
+  } catch (error) {
+    return { error };
+  }
+}
 module.exports = {
   createComment,
   updateComment,
   getCommentDetail,
   getCommentList,
+  deleteComment,
 };

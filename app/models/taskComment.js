@@ -29,6 +29,16 @@ module.exports = function (sequelize) {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      is_delete: {
+        type: DataTypes.TINYINT,
+        allowNull: true,
+        defaultValue: 0,
+        comment: "1=deleted,0 or null is not delete",
+      },
+      delete_datetime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       sequelize,
