@@ -73,7 +73,9 @@ CREATE TABLE `task_comment` (
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `create_by_uid` int NOT NULL,
   `create_datetime` datetime NOT NULL,
-  `update_datetime` datetime DEFAULT NULL
+  `update_datetime` datetime DEFAULT NULL,
+  `is_delete` tinyint DEFAULT NULL,
+  `delete_datetime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
